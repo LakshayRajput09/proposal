@@ -1,0 +1,208 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Will You Be My Valentine?</title>
+  <!-- Google Fonts for a romantic look -->
+  <link
+    href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@700&family=Roboto&display=swap"
+    rel="stylesheet"
+  />
+  <style>
+    /* Basic styling for full-screen background and centering */
+    body {
+      margin: 0;
+      padding: 0;
+      font-family: "Roboto", sans-serif;
+      background: linear-gradient(135deg, #ff9a9e, #fad0c4);
+      height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: #fff;
+      text-align: center;
+      overflow: hidden; /* Hide overflow from falling hearts */
+      position: relative;
+    }
+    /* Container for the main content */
+    .container {
+      background: rgba(0, 0, 0, 0.5);
+      border-radius: 20px;
+      padding: 40px;
+      max-width: 600px;
+      width: 90%;
+      position: relative;
+      z-index: 2;
+    }
+    /* Heading style with a romantic script */
+    h1 {
+      font-family: "Dancing Script", cursive;
+      font-size: 3.5em;
+      margin-bottom: 20px;
+    }
+    /* Paragraph style */
+    p {
+      font-size: 1.2em;
+      margin-bottom: 30px;
+    }
+    /* Heart shape with pulsing animation */
+    .heart {
+      position: relative;
+      width: 100px;
+      height: 90px;
+      margin: 0 auto 20px;
+      animation: pulse 1s infinite;
+    }
+    .heart:before,
+    .heart:after {
+      content: "";
+      position: absolute;
+      top: 0;
+      width: 100px;
+      height: 90px;
+      background: #ff6f91;
+      border-radius: 50px 50px 0 0;
+    }
+    .heart:before {
+      left: 50px;
+    }
+    .heart:after {
+      left: 0;
+      transform: rotate(-45deg);
+      transform-origin: 0 100%;
+    }
+    @keyframes pulse {
+      0% {
+        transform: scale(1);
+      }
+      50% {
+        transform: scale(1.1);
+      }
+      100% {
+        transform: scale(1);
+      }
+    }
+    /* Button container styling */
+    .buttons {
+      margin: 20px 0;
+    }
+    /* Button styling */
+    .btn {
+      padding: 15px 30px;
+      margin: 10px;
+      font-size: 1.1em;
+      border: none;
+      border-radius: 50px;
+      cursor: pointer;
+      transition: background-color 0.3s ease;
+    }
+    .btn.yes {
+      background-color: #ff6f91;
+      color: white;
+    }
+    .btn.yes:hover {
+      background-color: #ff3f7f;
+    }
+    .btn.no {
+      background-color: #6c757d;
+      color: white;
+    }
+    .btn.no:hover {
+      background-color: #5a6268;
+    }
+    /* Message area styling */
+    #message {
+      font-size: 1.3em;
+      margin-top: 20px;
+    }
+    /* Falling hearts styling */
+    .falling-heart {
+      position: absolute;
+      font-size: 24px;
+      color: #ff6f91;
+      user-select: none;
+      z-index: 1;
+      animation: fall linear forwards;
+    }
+    @keyframes fall {
+      0% {
+        transform: translateY(-50px) rotate(0deg);
+        opacity: 1;
+      }
+      100% {
+        transform: translateY(110vh) rotate(360deg);
+        opacity: 0;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <!-- Animated heart shape at the top -->
+    <div class="heart"></div>
+    <!-- Main proposal message -->
+    <h1>Will You Be My Valentine?</h1>
+    <p>
+      From the moment I met you, my life became a beautiful adventure. Every heartbeat whispers your name.
+      Would you share this journey of love with me?
+    </p>
+    <!-- Interactive buttons -->
+    <div class="buttons">
+      <button class="btn yes" onclick="acceptProposal()">Yes, I will!</button>
+      <button class="btn no" onclick="declineProposal()">I need a moment</button>
+    </div>
+    <!-- Message area to display responses -->
+    <div id="message"></div>
+  </div>
+
+  <!-- Canvas Confetti Library for a confetti explosion -->
+  <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.4.0/dist/confetti.browser.min.js"></script>
+  <script>
+    // Function called when the "Yes" button is clicked
+    function acceptProposal() {
+      document.getElementById("message").innerHTML =
+        "<strong>You just made me the happiest person alive! I love you so much!</strong>";
+      
+      // Trigger confetti animation
+      confetti({
+        particleCount: 150,
+        spread: 70,
+        origin: { y: 0.6 }
+      });
+      
+      // Trigger falling hearts animation
+      createFallingHearts();
+    }
+    
+    // Function called when the "I need a moment" button is clicked
+    function declineProposal() {
+      document.getElementById("message").innerHTML =
+        "Take your time, my love. I'll be waiting patiently, hoping you'll say yes.";
+    }
+    
+    // Function to create multiple falling heart elements
+    function createFallingHearts() {
+      const numHearts = 30; // Number of hearts to create
+      for (let i = 0; i < numHearts; i++) {
+        let heart = document.createElement("div");
+        heart.classList.add("falling-heart");
+        heart.innerHTML = "❤️";
+        // Random horizontal position (0 to 100 viewport width)
+        heart.style.left = Math.random() * 100 + "vw";
+        // Random animation duration between 4 and 8 seconds
+        const duration = Math.random() * 4 + 4;
+        heart.style.animationDuration = duration + "s";
+        // Random delay to stagger heart animations
+        heart.style.animationDelay = Math.random() * 2 + "s";
+        document.body.appendChild(heart);
+        
+        // Remove the heart after the animation ends
+        setTimeout(() => {
+          heart.remove();
+        }, (duration + 2) * 1000);
+      }
+    }
+  </script>
+</body>
+</html>
